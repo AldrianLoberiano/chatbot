@@ -108,7 +108,7 @@ if ("webkitSpeechRecognition" in window || "SpeechRecognition" in window) {
         isRecording = false;
         voiceBtn.classList.remove("recording");
         voiceBtn.title = "Voice input";
-        if (event.error !== "no-speech") {
+        if (event.error !== "no-speech" && event.error !== "network") {
             console.error("Speech recognition error:", event.error);
         }
     };
