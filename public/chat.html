@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="AI Chatbot — ask anything, get intelligent answers.">
+    <title>AI Chat</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%23111'/><text x='50%25' y='50%25' dominant-baseline='central' text-anchor='middle' font-size='20'>🤖</text></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body class="chat-page">
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <button class="new-chat-btn" id="newChatBtn">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="12" y1="5" x2="12" y2="19" />
+                    <line x1="5" y1="12" x2="19" y2="12" />
+                </svg>
+                <span>New chat</span>
+            </button>
+        </div>
+
+        <div class="sidebar-search">
+            <div class="search-input-wrap">
+                <svg class="search-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2">
+                    <circle cx="11" cy="11" r="8" />
+                    <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                </svg>
+                <input type="text" id="searchChats" placeholder="Search...">
+            </div>
+        </div>
+
+        <div class="sidebar-chats" id="chatList"></div>
+
+        <div class="sidebar-footer">
+            <div class="user-info" id="userInfo">
+                <div class="user-avatar" id="userAvatar">G</div>
+                <span class="user-name" id="userName">Guest</span>
+            </div>
+            <button class="btn-icon" id="themeToggleBtn" title="Toggle theme">
+                <svg id="iconMoon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" />
+                </svg>
+                <svg id="iconSun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2" style="display:none;">
+                    <circle cx="12" cy="12" r="5" />
+                    <line x1="12" y1="1" x2="12" y2="3" />
+                    <line x1="12" y1="21" x2="12" y2="23" />
+                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+                    <line x1="1" y1="12" x2="3" y2="12" />
+                    <line x1="21" y1="12" x2="23" y2="12" />
+                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+                </svg>
+            </button>
+        </div>
+    </aside>
+
+    <!-- Sidebar overlay (mobile) -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- Main Chat Area -->
+    <main class="chat-main">
+        <!-- Minimal header (mobile menu only) -->
+        <header class="chat-header">
+            <button class="btn-icon mobile-only" id="menuBtn">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="3" y1="12" x2="21" y2="12" />
+                    <line x1="3" y1="6" x2="21" y2="6" />
+                    <line x1="3" y1="18" x2="21" y2="18" />
+                </svg>
+            </button>
+            <h2 id="chatTitle" style="display:none;"></h2>
+        </header>
+
+        <!-- Messages -->
+        <div class="chat-messages" id="chatMessages">
+            <div class="welcome-screen" id="welcomeScreen">
+                <h1 class="welcome-greeting">What can I help with?</h1>
+                <div class="suggestion-grid">
+                    <button class="suggestion-card" data-prompt="Explain quantum computing in simple terms">
+                        <span class="suggestion-icon">🔬</span>
+                        <div class="suggestion-content">
+                            <span class="suggestion-title">Explain quantum computing</span>
+                            <span class="suggestion-desc">In simple, easy to understand terms</span>
+                        </div>
+                    </button>
+                    <button class="suggestion-card" data-prompt="Write a Python function to sort a list">
+                        <span class="suggestion-icon">💻</span>
+                        <div class="suggestion-content">
+                            <span class="suggestion-title">Write a sorting function</span>
+                            <span class="suggestion-desc">Python code with explanation</span>
+                        </div>
+                    </button>
+                    <button class="suggestion-card" data-prompt="What are the best practices for REST API design?">
+                        <span class="suggestion-icon">🌐</span>
+                        <div class="suggestion-content">
+                            <span class="suggestion-title">REST API best practices</span>
+                            <span class="suggestion-desc">Design patterns and guidelines</span>
+                        </div>
+                    </button>
+                    <button class="suggestion-card" data-prompt="Create a meal plan for the week">
+                        <span class="suggestion-icon">🍽️</span>
+                        <div class="suggestion-content">
+                            <span class="suggestion-title">Weekly meal plan</span>
+                            <span class="suggestion-desc">Healthy and balanced meals</span>
+                        </div>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Input Area -->
+        <div class="chat-input-area">
+            <div class="chat-input-container">
+                <textarea id="messageInput" placeholder="Ask me anything..." rows="1" autocomplete="off"></textarea>
+                <div class="input-actions">
+                    <button class="action-btn" id="voiceBtn" title="Voice input">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z" />
+                            <path d="M19 10v2a7 7 0 01-14 0v-2" />
+                            <line x1="12" y1="19" x2="12" y2="23" />
+                            <line x1="8" y1="23" x2="16" y2="23" />
+                        </svg>
+                    </button>
+                    <button class="send-btn" id="sendBtn" disabled title="Send">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                            <path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2.5"
+                                stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="/js/chat.js"></script>
+    <div class="toast-container" id="toastContainer"></div>
+</body>
+
+</html>
